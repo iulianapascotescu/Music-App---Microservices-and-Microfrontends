@@ -1,0 +1,41 @@
+version: "3.8"
+services:
+  songsapp:
+    image: iulianapascotescu/songsapp:latest
+    container_name: songsapp
+    mem_limit: 700m
+    ports:
+      - "8080:8080"
+    networks:
+      - music-app
+  artistsapp:
+    image: iulianapascotescu/artistsapp:latest
+    container_name: artistsapp
+    mem_limit: 700m
+    ports:
+      - "8081:8081"
+    networks:
+      - music-app
+    depends_on:
+      - songsapp
+  subapp:
+    image: iulianapascotescu/subapp:latest
+    container_name: subapp
+    mem_limit: 700m
+    ports:
+      - "4000:4000"
+    networks:
+      - music-app
+  webapp:
+    image: iulianapascotescu/webapp:latest
+    container_name: webapp
+    mem_limit: 700m
+    ports:
+      - "3000:3000"
+    networks:
+      - music-app
+    depends_on:
+      - artistsapp
+      - subapp
+networks:
+  music-app:
